@@ -1,0 +1,4 @@
+
+include ':jsf-spring-boot-starter'
+include ':jsf-spring-boot-example'
+
