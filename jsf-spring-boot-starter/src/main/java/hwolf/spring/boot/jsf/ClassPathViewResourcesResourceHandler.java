@@ -55,7 +55,9 @@ public class ClassPathViewResourcesResourceHandler extends ResourceHandlerWrappe
         if (url == null) {
             return createViewResourceWithWrappedHandler(context, resourceName);
         }
-        LOGGER.info("Load resource " + resourceName + " from " + url);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Load resource " + resourceName + " from " + url);
+        }
         return new ViewResource() {
 
             @Override
@@ -68,10 +70,12 @@ public class ClassPathViewResourcesResourceHandler extends ResourceHandlerWrappe
     private ViewResource createViewResourceWithWrappedHandler(FacesContext context, String resourceName) {
         ViewResource resource = wrapped.createViewResource(context, resourceName);
         if (resource == null) {
-            LOGGER.info("Did not found resource " + resourceName);
+            LOGGER.warn("Did not found resource " + resourceName);
             return null;
         }
-        LOGGER.info("Load resource " + resourceName + " from wrapped resource handler " + wrapped);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Load resource " + resourceName + " from wrapped resource handler " + wrapped);
+        }
         return resource;
     }
 }
