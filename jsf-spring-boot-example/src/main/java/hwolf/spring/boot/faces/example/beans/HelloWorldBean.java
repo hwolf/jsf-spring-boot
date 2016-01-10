@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pfx.web.core;
+package hwolf.spring.boot.faces.example.beans;
 
 import javax.faces.bean.ManagedBean;
 

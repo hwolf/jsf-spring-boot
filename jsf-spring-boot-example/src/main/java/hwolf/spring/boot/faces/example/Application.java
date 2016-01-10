@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pfx.web;
+package hwolf.spring.boot.faces.example;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -22,7 +22,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import hwolf.spring.boot.jsf.EnableJsf;
 
 @SpringBootApplication
-@EnableJsf("pfx")
+@EnableJsf
 public class Application {
 
     public static void main(String[] args) {
