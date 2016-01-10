@@ -74,6 +74,8 @@ subprojects {
         compile 'com.sun.faces:jsf-api'
         compile 'com.sun.faces:jsf-impl'
 
+        testCompile 'org.springframework.boot:spring-boot-starter-test'
+  
         integrationTestCompile sourceSets.test.output
     }
 
