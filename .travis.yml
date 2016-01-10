@@ -1,12 +1,7 @@
 language: java
 jdk:
   - oraclejdk8
- 
-before_script:
-  - npm install -g grunt-cli
-  - npm install -g bower
-  - npm install -g tsd
- 
+  
 script: ./gradlew test
 
 before_cache:
