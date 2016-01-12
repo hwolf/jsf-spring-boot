@@ -40,9 +40,14 @@ public class ServletContainerInitializerInvoker implements ServletContextInitial
     private final String[] basePackages;
 
     public ServletContainerInitializerInvoker(ServletContainerInitializer initializer,
-            Collection<String> basePackages) {
+            String... basePackages) {
         this.initializer = initializer;
-        this.basePackages = basePackages.toArray(new String[0]);
+        this.basePackages = basePackages;
+    }
+
+    public ServletContainerInitializerInvoker(ServletContainerInitializer initializer,
+            Collection<String> basePackages) {
+        this(initializer, basePackages.toArray(new String[0]));
     }
 
     @Override
