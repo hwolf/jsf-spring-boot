@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * A {@link ResourceHandler} which loads {@link ViewResource ViewResources} from
- * {@value META-INF/resource} in the class path.
+ * {@value META-INF/faces} in the class path.
  *
  * Loading view resources from the standard webapp folder doesn't work if I start my Spring Boot
  * application as executable JAR.
@@ -64,7 +64,7 @@ public class ClassPathViewResourcesResourceHandler extends ResourceHandlerWrappe
             }
             return resource;
         }
-        LOGGER.warn("Did not found resource " + resourceName);
+        LOGGER.warn("Did not find resource " + resourceName);
         return null;
     }
 }

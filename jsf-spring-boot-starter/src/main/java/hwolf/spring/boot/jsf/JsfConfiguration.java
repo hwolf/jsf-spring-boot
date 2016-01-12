@@ -59,7 +59,7 @@ public class JsfConfiguration implements ImportAware, EnvironmentAware {
     }
 
     private Collection<String> getBasePackages() {
-        Set<String> basePackages = new LinkedHashSet<String>();
+        Set<String> basePackages = new LinkedHashSet<>();
         AnnotationAttributes attrs = new AnnotationAttributes(
                 metaData.getAnnotationAttributes(EnableJsf.class.getName()));
         String[] basePackagesArray = attrs.getAliasedStringArray("basePackages", EnableJsf.class,

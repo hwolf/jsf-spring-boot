@@ -1,0 +1,171 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">
+        Dialog Framework - <span class="subitem">Data</span>
+    </ui:define>
+
+    <ui:define name="description">
+        Dialog Framework provides APIs to pass and retrieve data between the source page and the dialog.
+    </ui:define>
+
+    <ui:define name="implementation">
+        
+        <h:form>
+            <p:growl id="growl" showDetail="true" />
+
+            <p:commandButton value="Select Car" icon="ui-icon-extlink" actionListener="#{dfView.chooseCar}">
+                <p:ajax event="dialogReturn" listener="#{dfView.onCarChosen}" update="growl" />
+            </p:commandButton>
+        </h:form>
+        
+    </ui:define>
+
+    <ui:define name="source">
+        <p:tabView>
+            <p:tab title="data.xhtml">
+                <pre name="code" class="brush:xml">
+&lt;h:form&gt;
+    &lt;p:growl id="growl" showDetail="true" /&gt;
+
+    &lt;p:commandButton value="Select Car" icon="ui-icon-extlink" actionListener="\#{dfView.chooseCar}"&gt;
+        &lt;p:ajax event="dialogReturn" listener="\#{dfView.onCarChosen}" update="growl" /&gt;
+    &lt;/p:commandButton&gt;
+&lt;/h:form&gt;
+                </pre>
+            </p:tab>
+
+            <p:tab title="DFView.java">
+                <pre name="code" class="brush:java">
+package org.primefaces.showcase.view.df;
+
+import java.util.HashMap;
+import java.util.Map;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.showcase.domain.Car;
+
+@ManagedBean(name = "dfView")
+public class DFView {
+        
+    public void chooseCar() {
+        Map&lt;String,Object&gt; options = new HashMap&lt;String, Object&gt;();
+        options.put("resizable", false);
+        options.put("draggable", false);
+        options.put("modal", true);
+        RequestContext.getCurrentInstance().openDialog("selectCar", options, null);
+    }
+    
+    public void onCarChosen(SelectEvent event) {
+        Car car = (Car) event.getObject();
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Car Selected", "Id:" + car.getId());
+		
+		FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+}
+                </pre>
+            </p:tab>
+            
+            <p:tab title="selectCar.xhtml">
+                <pre name="code" class="brush:xml">
+&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"&gt;
+    
+    &lt;h:head&gt;
+        &lt;title&gt;Cars&lt;/title&gt;
+                &lt;style type="text/css"&gt;
+            .ui-widget {
+                font-size: 90%;
+            }
+        &lt;/style&gt;
+    &lt;/h:head&gt;
+    
+    &lt;h:body&gt;
+        &lt;h:form&gt;
+            &lt;p:dataTable var="car" value="\#{dfCarsView.cars}"&gt;
+                &lt;p:column headerText="Id"&gt;
+                    &lt;h:outputText value="\#{dfCarsView.id}" /&gt;
+                &lt;/p:column&gt;
+
+                &lt;p:column headerText="Year"&gt;
+                    &lt;h:outputText value="\#{dfCarsView.year}" /&gt;
+                &lt;/p:column&gt;
+
+                &lt;p:column headerText="Brand"&gt;
+                    &lt;h:outputText value="\#{dfCarsView.brand}" /&gt;
+                &lt;/p:column&gt;
+
+                &lt;p:column headerText="Color"&gt;
+                    &lt;h:outputText value="\#{dfCarsView.color}" /&gt;
+                &lt;/p:column&gt;
+
+                &lt;p:column style="width:32px;text-align: center"&gt;
+                    &lt;p:commandButton icon="ui-icon-search" actionListener="\#{dfCarsView.selectCarFromDialog(car)}" /&gt;
+                &lt;/p:column&gt;
+            &lt;/p:dataTable&gt;
+        &lt;/h:form&gt;
+    &lt;/h:body&gt;
+    
+&lt;/html&gt;
+                </pre>
+            </p:tab>
+            
+            <p:tab title="DFCarsView.java">
+                <pre name="code" class="brush:java">
+package org.primefaces.showcase.view.df;
+
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.context.RequestContext;
+import org.primefaces.showcase.domain.Car;
+import org.primefaces.showcase.service.CarService;
+
+@ManagedBean(name = "dfCarsView")
+@ViewScoped
+public class DFCarsView implements Serializable {
+    
+    private List&lt;Car&gt; cars;
+
+    @ManagedProperty("\#{carService}")
+    private CarService service;
+    
+    @PostConstruct
+    public void init() {
+        cars = service.createCars(9);
+    }
+    
+    public List&lt;Car&gt; getCars() {
+        return cars;
+    }
+
+    public void setService(CarService service) {
+        this.service = service;
+    }
+    
+    public void selectCarFromDialog(Car car) {
+        RequestContext.getCurrentInstance().closeDialog(car);
+    }
+}
+
+                </pre>
+            </p:tab>
+            
+            <p:tab title="Documentation" titleStyleClass="tab-doc docslide-538" />
+        </p:tabView>
+
+    </ui:define>
+
+</ui:composition>

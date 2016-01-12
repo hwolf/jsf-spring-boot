@@ -1,0 +1,54 @@
+/*
+ * Copyright 2016 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'spring-boot'
+
+repositories {
+    maven { url 'http://repository.primefaces.org' }
+}
+sonarqube {
+    properties {
+        property 'sonar.exclusions', 'src/**/*'
+    }
+}
+
+dependencies {
+    compile project(':jsf-spring-boot-starter')
+    compile 'org.springframework.boot:spring-boot-actuator'
+    
+    compile 'commons-lang:commons-lang:2.6'
+    compile 'javax.inject:javax.inject:1'
+    compile 'org.hibernate:hibernate-validator:5.0.1.Final'
+    compile 'org.apache.poi:poi:3.7'
+    compile 'org.apache.poi:poi-ooxml:3.7'
+    compile ('com.lowagie:itext:2.1.7') {
+        exclude module: 'bcmail-jdk14'
+        exclude module: 'bcprov-jdk14'
+        exclude module: 'bctsp-jdk14'
+    }
+    compile 'commons-fileupload:commons-fileupload:1.3'
+    compile 'commons-io:commons-io:2.2'
+    compile 'rome:rome:1.0'
+    compile 'org.twitter4j:twitter4j-core:3.0.5'
+    compile 'javax.inject:javax.inject:1'
+    compile 'org.primefaces:primefaces:5.3'
+    compile 'org.primefaces.themes:all-themes:1.0.10'
+    compile 'org.atmosphere:atmosphere-runtime:2.3.0-RC6'
+    compile 'net.sourceforge.barbecue:barbecue:1.5-beta1'
+    compile 'jfree:jfreechart:1.0.0'
+    compile 'net.glxn:qrgen:1.4'
+    compile 'net.sf.barcode4j:barcode4j-light:2.1'
+}

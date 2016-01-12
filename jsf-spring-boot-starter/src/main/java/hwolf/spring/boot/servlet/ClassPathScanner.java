@@ -78,7 +78,6 @@ final class ClassPathScanner {
 
     private void scanPackage(ClassPathScanningCandidateComponentProvider scanner, String basePackage) {
 
-        boolean debug = LOGGER.isDebugEnabled();
         for (BeanDefinition bd : scanner.findCandidateComponents(basePackage)) {
             try {
                 if (debug) {
