@@ -50,32 +50,21 @@ public class ClassPathViewResourcesResourceHandler extends ResourceHandlerWrappe
 
     @Override
     public ViewResource createViewResource(FacesContext context, String resourceName) {
-        final URL url = Thread.currentThread().getContextClassLoader()
-                .getResource("META-INF/resources" + resourceName);
-        if (url == null) {
-            return createViewResourceWithWrappedHandler(context, resourceName);
-        }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Load resource " + resourceName + " from " + url);
-        }
-        return new ViewResource() {
-
-            @Override
-            public URL getURL() {
-                return url;
+        URL url = Thread.currentThread().getContextClassLoader().getResource("META-INF/faces" + resourceName);
+        if (url != null) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Load resource " + resourceName + " from " + url);
             }
-        };
-    }
-
-    private ViewResource createViewResourceWithWrappedHandler(FacesContext context, String resourceName) {
+            return new ViewResourceImpl(url);
+        }
         ViewResource resource = wrapped.createViewResource(context, resourceName);
-        if (resource == null) {
-            LOGGER.warn("Did not found resource " + resourceName);
-            return null;
+        if (resource != null) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Load resource " + resourceName + " from wrapped resource handler " + wrapped);
+            }
+            return resource;
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Load resource " + resourceName + " from wrapped resource handler " + wrapped);
-        }
-        return resource;
+        LOGGER.warn("Did not found resource " + resourceName);
+        return null;
     }
 }
