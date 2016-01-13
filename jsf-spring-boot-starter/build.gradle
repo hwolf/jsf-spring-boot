@@ -14,5 +14,38 @@
  * limitations under the License.
  */
 
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
+
+group = 'hwolf.jsf-spring-boot'
+version = '1.0.0-SNAPSHOT'
+
 dependencies {
+}
+
+artifactory {
+    contextUrl = "$artifactory_server"
+    publish {
+        repository {
+            repoKey = "$artifactory_publish_repo"
+            username = "$artifactory_user"
+            password = "$artifactory_password"
+            maven = true
+        }       
+        defaults {
+            publishBuildInfo = false
+            publishIvy = false
+            //publishArtifacts = true
+            //publishPom = true
+            publications('mavenJava')
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
